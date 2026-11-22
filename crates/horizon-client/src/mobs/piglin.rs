@@ -945,7 +945,7 @@ fn broadcast_anger(m: &Mob, w: &MobWorld, by: Who, at: Vec3, events: &mut Vec<Mo
         events.push(MobEvent::SetTarget {
             mob,
             target: by,
-            source: id,
+            player: None,
         });
     }
 }
@@ -2588,7 +2588,7 @@ mod hurt_broadcast_tests {
                 MobEvent::SetTarget {
                     mob: 2,
                     target: Who::Player,
-                    source: 1,
+                    player: None,
                 }
             )),
             "the piglin takes the player as its target: {events:?}"

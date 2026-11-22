@@ -478,14 +478,14 @@ mod tests {
                 placed.position = [x, 64.0, 0.0];
                 game.lan.as_mut().unwrap().hub.guests.push(placed);
             }
-            // Player 12 hit the first piglin; the second sees player 13, its nearest.
+            // Player 12 hit the first piglin, whose tick sent the alert; the second sees
+            // player 13, its nearest.
             let host = game.lan.as_mut().unwrap();
-            host.mob_players.insert(9001, 12);
             host.mob_players.insert(9002, 13);
             game.handle_mob_events(vec![MobEvent::SetTarget {
                 mob: 9002,
                 target: Who::Player,
-                source: 9001,
+                player: Some(12),
             }])
             .unwrap();
             let alerted = game.mobs.iter().find(|m| m.id == 9002).unwrap();

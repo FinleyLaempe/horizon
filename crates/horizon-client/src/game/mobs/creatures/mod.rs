@@ -2863,15 +2863,12 @@ impl Game<'_> {
                 MobEvent::SetTarget {
                     mob,
                     target,
-                    source,
+                    player,
                 } => {
                     // `alertOther(other, lastHurtByMob)` hands over the attacker itself: a
-                    // player target is the one the alerting mob sees, not the receiver's nearest.
-                    let player = self
-                        .lan
-                        .as_ref()
-                        .and_then(|host| host.mob_players.get(&source).copied())
-                        .or(self.lan_acting);
+                    // player target is the one the alerting mob saw when it sent this, not
+                    // the receiver's nearest, nor whom an earlier alert in the batch rebound
+                    // the alerting mob to.
                     self.set_event_ai_target(mob, Some(target), player);
                 }
                 MobEvent::PiglinAlertTarget(alert) => self.piglin_alert_target(alert),

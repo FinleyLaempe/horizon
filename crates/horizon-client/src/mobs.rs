@@ -2604,7 +2604,8 @@ impl MobEvent {
             | Self::StabDismount { target }
             | Self::Ignite(target, _)
             | Self::ZombieIgnite(target, _)
-            | Self::IronGolemHit { target, .. } => *target == Who::Player,
+            | Self::IronGolemHit { target, .. }
+            | Self::SetTarget { target, .. } => *target == Who::Player,
             Self::Projectile(projectile) => matches!(
                 &projectile.kind,
                 crate::projectiles::ProjectileKind::ShulkerBullet {

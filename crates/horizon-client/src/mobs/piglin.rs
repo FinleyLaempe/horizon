@@ -942,11 +942,11 @@ fn broadcast_anger(m: &Mob, w: &MobWorld, by: Who, at: Vec3, events: &mut Vec<Mo
         .map(|s| s.id)
         .collect();
     for mob in others {
-        events.push(MobEvent::SetTarget {
+        events.push(w.route_player_event(MobEvent::SetTarget {
             mob,
             target: by,
             player: None,
-        });
+        }));
     }
 }
 /// `PiglinAi.maybeRetaliate`: the tests. Not while retreating, only against

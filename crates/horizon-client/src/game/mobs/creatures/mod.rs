@@ -2225,9 +2225,18 @@ impl Game<'_> {
             match e {
                 MobEvent::ForPlayer { conn, event } => {
                     let mut event = *event;
+                    // An alert carries its player itself rather than running as a guest.
+                    if let MobEvent::SetTarget {
+                        target: Who::Player,
+                        player,
+                        ..
+                    } = &mut event
+                    {
+                        *player = conn;
+                        self.handle_mob_events(vec![event])?;
                     // Projectiles are spawned in the world rather than run
                     // as a guest, but must retain the selected guest target.
-                    if let Some(conn) = conn
+                    } else if let Some(conn) = conn
                         && let MobEvent::Projectile(p) = &mut event
                         && let ProjectileKind::ShulkerBullet { target, .. } = &mut p.kind
                         && *target == Some(Who::Player)
